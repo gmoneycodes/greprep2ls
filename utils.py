@@ -2,6 +2,7 @@ import subprocess
 import re
 from notion_client import Client
 from dotenv import load_dotenv
+import subprocess
 
 
 def link2id(link):
@@ -15,3 +16,14 @@ def link2id(link):
     indices = [8, 12, 16, 20]
     parts = [l[i:j] for i, j in zip([0] + indices, indices + [None])]
     return "-".join(parts)
+
+import subprocess
+
+def clean_latex(text, copy: bool = False):
+    invalid_strs = [r"\(", r"\[", r"\)", r"\]"]
+    for invalid in invalid_strs:
+        text = text.replace(invalid, "")
+    if copy:
+        subprocess.run("pbcopy", text=True, input=text)
+    else:
+        return text
